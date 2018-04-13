@@ -1,0 +1,25 @@
+language: elixir
+elixir:
+  - 1.4.5
+  - 1.5.2
+
+otp_release:
+  - 19.3
+  - 20.1
+
+script:
+- bin/fetch-configlet
+- bin/configlet lint .
+- mix deps.get
+- mix test
+
+# fail if there are any compiler warnings
+- mkdir ./tmp
+- EXERCISM_TEST_EXAMPLES=true elixirc --warnings-as-errors **/example.exs **/*_test.exs -o ./tmp > /dev/null
+- rm -rf ./tmp
+
+- bin/dialyzer_check.sh
+
+- "! git grep ' $' -- \\*.exs | grep -v -e 'exercises/diamond/diamond_test.exs'"
+
+sudo: false

@@ -1,0 +1,1 @@
+mix test exercises/$1/$1_test.exs
