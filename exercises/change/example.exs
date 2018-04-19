@@ -19,25 +19,24 @@ defmodule Change do
   def generate(coins, target) do
     coins |> Enum.sort(&>/2) |> generate(target, [], {:error, "cannot change"})
   end
-
-  defp generate(_, _, current, {:ok, best}) when length(current) >= length(best) do
+  defp generate(_, _,current,{:ok,best}) when length(current) >= length(best) do
+    IO.puts "best: #{inspect best} current:#{inspect current}" 
     {:ok, best}
   end
-
-  defp generate(_, 0, current, _) do
+  defp generate(_, 0,current, _) do
+    IO.puts "current:#{inspect current}" 
     {:ok, current}
   end
-
-  defp generate([], _, _, best) do
+  defp generate([], _, _,best) do
+    IO.puts "best:#{inspect best}" 
     best
   end
-
-  defp generate([coin | coins], target, current, best) when coin > target do
+  defp generate([coin | coins],target,current,best) when coin > target do
     generate(coins, target, current, best)
   end
-
-  defp generate([coin | coins], target, current, best) do
+  defp generate([coin | coins],target,current,best) do
     first_try = generate([coin | coins], target - coin, [coin | current], best)
+    IO.puts "** first_try:#{inspect first_try} **"
     generate(coins, target, current, first_try)
   end
 end

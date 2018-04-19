@@ -1,4 +1,5 @@
 defmodule Change do
+  @test_data 21
   @doc """
     Determine the least number of coins to be given to the user such
     that the sum of the coins' value would equal the correct amount of change.
@@ -17,5 +18,68 @@ defmodule Change do
 
   @spec generate(list, integer) :: {:ok, list} | {:error, String.t()}
   def generate(coins, target) do
+    #coins_rv = Enum.sort(coins, &(&1 > &2))
+    Enum.sort(coins, &>/2)
+    |> check_change( target, [])
+  end
+  def bestone([]), do: {:error, "cannot change"} 
+  def bestone( r_list) do 
+    best = Enum.min_by(r_list, fn(x) -> length(x) end) 
+    {:ok, best}
+  end
+  def check([], _, r_list) do
+    r_list
+  end
+  def check( [coin | coins], target, r_list) do 
+    { ret, result} = check_change([coin | coins], target, [])
+    IO.puts "check-> #{inspect result}"
+    if ret == :ok do
+      r_list = r_list ++ [result]
+      check(coins, target, r_list) 
+    else 
+      check(coins, target, r_list)
+    end
+  end 
+
+  def check_change(_, 0, result) , do: {:ok, result}
+  def check_change([], _, _) , do: {:error, "cannot change"}
+   
+  #def check_change([coin | coins], target, result) when coin > target do
+  #  check_change(coins, target, result)
+  #end
+  def check_change([coin | coins], target, result) do  
+    IO.puts "h:#{coin} sum:#{target}, res:#{inspect result}"
+    if coin > target do
+      cnt = Enum.count(result, fn(x) -> x == coin end)
+      cond do
+        cnt > 1 ->
+          result = List.delete(result, coin)
+          check_change(coins, target + coin, result)
+        cnt > 0 ->
+          {code, res} = check_change(coins, target + coin, result) 
+          if code == :error do
+            result = List.delete(result, coin)
+            check_change(coins, target + coin, result)
+          end
+        cnt == 0 ->
+          check_change(coins, target, result)
+      end
+    else
+      #target = target - coin 
+      #result = [coin] ++ result
+      check_change([coin | coins], target - coin, [coin] ++ result)
+      #check_change(coins, target, result) 
+    end
+  end
+  @test_coins [2,5,10,20,50]
+  @test_coins2 [1, 5, 10, 25, 100]
+  def test_sample  do
+    IO.puts "generate(#{inspect @test_coins}, #{@test_data})"
+    generate(@test_coins, @test_data)
+    |> IO.inspect
+  end
+  def test_sample2 do 
+    generate(@test_coins2, 15)
+    |> IO.inspect
   end
 end

@@ -20,6 +20,7 @@ defmodule BracketPush do
   defp check([], _), do: false
 
   defp check([h | t], acc) do
+    #IO.puts "h:#{h}, acc:#{inspect acc}"
     cond do
       Map.has_key?(@brackets, h) ->
         check(t, [Map.get(@brackets, h) | acc])
@@ -31,6 +32,7 @@ defmodule BracketPush do
         false
 
       h == hd(acc) ->
+        #IO.puts "h == hd(acc) acc:#{inspect acc}"
         check(t, tl(acc))
 
       true ->
