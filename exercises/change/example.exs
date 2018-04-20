@@ -19,6 +19,7 @@ defmodule Change do
   def generate(coins, target) do
     coins |> Enum.sort(&>/2) |> generate(target, [], {:error, "cannot change"})
   end
+
   defp generate(_, _,current,{:ok,best}) when length(current) >= length(best) do
     IO.puts "best: #{inspect best} current:#{inspect current}" 
     {:ok, best}

@@ -20,7 +20,8 @@ defmodule Change do
   def generate(coins, target) do
     #coins_rv = Enum.sort(coins, &(&1 > &2))
     Enum.sort(coins, &>/2)
-    |> check_change( target, [])
+    #|> check_change( target, [])
+    |> check( target, [])
   end
   def bestone([]), do: {:error, "cannot change"} 
   def bestone( r_list) do 
@@ -32,7 +33,7 @@ defmodule Change do
   end
   def check( [coin | coins], target, r_list) do 
     { ret, result} = check_change([coin | coins], target, [])
-    IO.puts "check-> #{inspect result}"
+    IO.puts "check-> #{inspect ret},#{inspect result}"
     if ret == :ok do
       r_list = r_list ++ [result]
       check(coins, target, r_list) 
@@ -44,32 +45,16 @@ defmodule Change do
   def check_change(_, 0, result) , do: {:ok, result}
   def check_change([], _, _) , do: {:error, "cannot change"}
    
-  #def check_change([coin | coins], target, result) when coin > target do
-  #  check_change(coins, target, result)
-  #end
+  def check_change([coin | coins], target, result) when coin > target do
+    check_change(coins, target, result)
+  end
+
   def check_change([coin | coins], target, result) do  
     IO.puts "h:#{coin} sum:#{target}, res:#{inspect result}"
-    if coin > target do
-      cnt = Enum.count(result, fn(x) -> x == coin end)
-      cond do
-        cnt > 1 ->
-          result = List.delete(result, coin)
-          check_change(coins, target + coin, result)
-        cnt > 0 ->
-          {code, res} = check_change(coins, target + coin, result) 
-          if code == :error do
-            result = List.delete(result, coin)
-            check_change(coins, target + coin, result)
-          end
-        cnt == 0 ->
-          check_change(coins, target, result)
-      end
-    else
-      #target = target - coin 
-      #result = [coin] ++ result
-      check_change([coin | coins], target - coin, [coin] ++ result)
-      #check_change(coins, target, result) 
-    end
+    #target = target - coin 
+    #result = [coin] ++ result
+    check_change([coin | coins], target - coin, [coin] ++ result)
+    #check_change(coins, target, result) 
   end
   @test_coins [2,5,10,20,50]
   @test_coins2 [1, 5, 10, 25, 100]
