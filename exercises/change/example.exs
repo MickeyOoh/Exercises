@@ -17,7 +17,7 @@ defmodule Change do
 
   @spec generate(list, integer) :: {:ok, list} | {:error, String.t()}
   def generate(coins, target) do
-    coins |> Enum.sort(&>/2) |> generate(target, [], {:error, "cannot change"})
+    coins |> Enum.sort(&>/2) |> generate(target,[],{:error,"cannot change"})
   end
 
   defp generate(_, _,current,{:ok,best}) when length(current) >= length(best) do

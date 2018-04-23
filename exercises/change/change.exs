@@ -1,5 +1,4 @@
 defmodule Change do
-  @test_data 21
   @doc """
     Determine the least number of coins to be given to the user such
     that the sum of the coins' value would equal the correct amount of change.
@@ -20,43 +19,39 @@ defmodule Change do
   def generate(coins, target) do
     #coins_rv = Enum.sort(coins, &(&1 > &2))
     Enum.sort(coins, &>/2)
-    #|> check_change( target, [])
-    |> check( target, [])
+    |> check_change( target, [], [])
+    #|> IO.inspect
+    |> set_ret()
   end
-  def bestone([]), do: {:error, "cannot change"} 
-  def bestone( r_list) do 
-    best = Enum.min_by(r_list, fn(x) -> length(x) end) 
-    {:ok, best}
+  def set_ret([]), do: {:error, "cannot change"} 
+  def set_ret([0]), do: {:ok, []} 
+  def set_ret(r_list), do: {:ok, r_list}
+  
+  def check_change([], _,     _, r_list), do: r_list
+  #def check_change( _, 0,result, r_list), do: r_list ++ [result]
+  def check_change( _, 0,result, r_list) do 
+    if length(result) < length(r_list) or Enum.empty?(r_list) do
+      if Enum.empty?(result), do: [0], else: result
+    else 
+      r_list
+    end
   end
-  def check([], _, r_list) do
+  def check_change(_,_, result, r_list) 
+  when length(result) > length(r_list) and r_list != [] do
+    #IO.puts "length(#{inspect result}) > length(#{inspect r_list})"
     r_list
   end
-  def check( [coin | coins], target, r_list) do 
-    { ret, result} = check_change([coin | coins], target, [])
-    IO.puts "check-> #{inspect ret},#{inspect result}"
-    if ret == :ok do
-      r_list = r_list ++ [result]
-      check(coins, target, r_list) 
-    else 
-      check(coins, target, r_list)
-    end
-  end 
-
-  def check_change(_, 0, result) , do: {:ok, result}
-  def check_change([], _, _) , do: {:error, "cannot change"}
-   
-  def check_change([coin | coins], target, result) when coin > target do
-    check_change(coins, target, result)
+  def check_change([coin | coins],target,result,r_list) when coin > target do 
+    check_change(coins, target, result,r_list)
   end
-
-  def check_change([coin | coins], target, result) do  
-    IO.puts "h:#{coin} sum:#{target}, res:#{inspect result}"
-    #target = target - coin 
-    #result = [coin] ++ result
-    check_change([coin | coins], target - coin, [coin] ++ result)
-    #check_change(coins, target, result) 
+  def check_change([coin | coins], target, result, r_list) do  
+    #IO.puts "#{inspect [coin | coins]},#{target},#{inspect result}, #{inspect r_list}"
+    r_lt = check_change([coin | coins], target - coin, [coin] ++ result, r_list)
+    check_change(coins, target, result, r_lt)
   end
-  @test_coins [2,5,10,20,50]
+  @test_coins [1, 5, 10, 21, 25]
+  #@test_data 63
+  @test_data 0
   @test_coins2 [1, 5, 10, 25, 100]
   def test_sample  do
     IO.puts "generate(#{inspect @test_coins}, #{@test_data})"
