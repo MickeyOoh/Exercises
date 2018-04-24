@@ -11,8 +11,10 @@ defmodule Clock do
   """
   @spec new(integer, integer) :: Clock.t()
   def new(hour, minute) do
-    %Clock{} = %{hour: hour, minute: minute}
-    "#{hour}:#{minute}"
+    #%Clock{hour: hour, minute: minute}
+    #"#{hour}:#{minute}"
+    {carry_hour, minute} = roll_minute(minute)
+    %Clock{hour: roll_hour(hour + carry_hour), minute: minute}
   end
 
   @doc """
@@ -23,7 +25,21 @@ defmodule Clock do
   """
   @spec add(Clock, integer) :: Clock
   def add(%Clock{hour: hour, minute: minute}, add_minute) do
+    new(hour, minute + add_minute)
   end
+
+  def roll_hour(hour) when hour < 0 and rem(hour, 24) == 0, do: 0
+  def roll_hour(hour) when hour < 0, do: 24 + rem(hour, 24)
+  def roll_hour(hour) when hour >= 24, do: rem(hour, 24)
+  def roll_hour(hour), do: hour
+
+  def roll_minute(minute) when minute < 0 do 
+    {div(minute, 60) - 1, 60 + rem(minute, 60)}
+  end 
+  def roll_minute(minute) when minute >= 60 do
+    {div(minute, 60), rem(minute, 60)}
+  end
+  def roll_minute(minute), do: {0, minute}
 
   defimpl String.Chars, for: Clock do
     def to_string(%Clock{hour: hour, minute: minute}) do 
