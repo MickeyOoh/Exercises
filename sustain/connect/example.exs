@@ -16,6 +16,7 @@ defmodule Connect do
   defp black_wins?(board) do
     board
     |> Enum.with_index()
+    |> IO.inspect
     |> Enum.any?(fn {row, index} ->
       String.first(row) == "X" && black_wins?(board, [{index, 0}])
     end)
@@ -24,6 +25,7 @@ defmodule Connect do
   defp black_wins?(board, [{_, y} | _]) when y + 1 == byte_size(hd(board)), do: true
 
   defp black_wins?(board, history = [last_loc | _]) do
+    IO.puts "black-history:#{inspect history}"
     last_loc
     |> locs_next_to(history)
     |> Enum.filter(&(get_loc(board, &1) == "X"))
@@ -35,6 +37,7 @@ defmodule Connect do
     |> hd
     |> String.graphemes()
     |> Enum.with_index()
+    |> IO.inspect
     |> Enum.any?(fn {spot, index} ->
       spot == "O" && white_wins?(board, [{0, index}])
     end)
@@ -43,6 +46,7 @@ defmodule Connect do
   defp white_wins?(board, [{x, _} | _]) when x + 1 == length(board), do: true
 
   defp white_wins?(board, history = [last_loc | _]) do
+    IO.puts "white-history:#{inspect history}"
     last_loc
     |> locs_next_to(history)
     |> Enum.filter(&(get_loc(board, &1) == "O"))
@@ -68,5 +72,10 @@ defmodule Connect do
   defp get_loc(board, {x, y}) do
     row = Enum.at(board, x)
     row && String.at(row, y)
+  end
+
+  @test [".XX..","X.X.X", ".X.X.",".XX..","OOOOO"]
+  def test1() do 
+    result_for(@test)
   end
 end
