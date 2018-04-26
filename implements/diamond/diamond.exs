@@ -7,16 +7,13 @@ defmodule Diamond do
   def build_shape(letter) when (letter - ?A) >= 0 and is_integer(letter) do
     pos = letter - ?A
     size = pos * 2 + 1
-    loc = if pos > 0 do
-        Enum.concat([0..pos,pos - 1..0])
-      else
-        [0]
-      end
+    loc = Enum.into(0..pos, [])
+    loc = loc ++ Enum.drop(Enum.reverse(loc), 1)
     result = for row <- loc do
       List.duplicate("\s", size)
       |> List.update_at( pos - row, fn _ -> << ?A + row>> end)
       |> List.update_at( pos + row, fn _ -> << ?A + row>> end)
-      |> add_list( "\n")
+      |> List.insert_at( size, "\n")
       |> Enum.join()
     end
     Enum.join(result) 
