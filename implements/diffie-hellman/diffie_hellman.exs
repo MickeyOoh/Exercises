@@ -36,17 +36,20 @@ defmodule DiffieHellman do
   """
   @spec generate_private_key(prime_p :: integer) :: integer
   def generate_private_key(prime_p) do
+    1 |> Range.new(prime_p - 1) |> Enum.random() 
   end
 
   @doc """
   Given two prime integers as generators (`prime_p` and `prime_g`), and a private key,
   generate a public key using the mathematical formula:
-
+  :crypto.mod_pow( P, G, privateK)  =>  P^G mod privateK
   (prime_g **  private_key) % prime_p
   """
-  @spec generate_public_key(prime_p :: integer, prime_g :: integer, private_key :: integer) ::
-          integer
+  @spec generate_public_key(prime_p :: integer,
+                            prime_g :: integer,
+                            private_key :: integer) :: integer
   def generate_public_key(prime_p, prime_g, private_key) do
+    :crypto.mod_pow(prime_g, private_key, prime_p) |> :binary.decode_unsigned() 
   end
 
   @doc """
@@ -61,5 +64,6 @@ defmodule DiffieHellman do
           private_key_a :: integer
         ) :: integer
   def generate_shared_secret(prime_p, public_key_b, private_key_a) do
+    :crypto.mod_pow(public_key_b, private_key_a, prime_p) |> :binary.decode_unsigned()
   end
 end

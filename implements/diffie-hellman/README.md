@@ -2,6 +2,8 @@
 
 Diffie-Hellman key exchange.
 
+it is a method of securely exchanging cryptographic keys over a public channel and was one of the first public-key protocols as orginally conceptualizedby Ralph Merkle and named after Whitfield Diffie and Martin Hellman.
+
 Alice and Bob use Diffie-Hellman key exchange to share secrets.  They
 start with prime numbers, pick private keys, generate and share public
 keys, and then generate a shared secret key.
