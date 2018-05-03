@@ -60,3 +60,18 @@ see the [help page](http://exercism.io/languages/elixir).
 
 ## Submitting Incomplete Solutions
 It's possible to submit an incomplete solution so you can see how others have completed the exercise.
+
+
+%Graph{}
+-----
+```
+defmodule Graph do 
+  defstruct attrs: [], nodes: [], edges: []
+end
+```
+attrs:
+
+nodes:
+
+edges:
+
