@@ -90,7 +90,8 @@ defmodule Forth do
 
   defp do_eval(s = %State{input: []}), do: s
 
-  defp do_eval(s = %State{stack: stack, input: [h | t]}) when is_integer(h) do
+  defp do_eval(s = %State{stack: stack, input: [h | t]}) 
+  when is_integer(h) do
     do_eval(%{s | stack: [h | stack], input: t})
   end
 
@@ -125,14 +126,15 @@ defmodule Forth do
 
       # To evaluate a user defined function we'll just put the function
       # definition in the input list. That should do the trick.
-      d
-      when is_list(d) ->
+      d when is_list(d) ->
         do_eval(%{s | input: d ++ t})
     end
   end
 
-  defp tokenize(s) do
+  def tokenize(s) do
+    IO.inspect s
     Regex.scan(~r/[\p{L}\p{N}\p{S}\p{P}]+/u, s)
+    |> IO.inspect
     |> Stream.map(&hd/1)
     |> Enum.map(fn t ->
       case Integer.parse(t) do
@@ -140,6 +142,7 @@ defmodule Forth do
         _ -> t
       end
     end)
+    #|> IO.inspect
   end
 
   @doc """

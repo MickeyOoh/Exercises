@@ -1,9 +1,11 @@
-if !System.get_env("EXERCISM_TEST_EXAMPLES") do
+#if !System.get_env("EXERCISM_TEST_EXAMPLES") do
   Code.load_file("forth.exs", __DIR__)
-end
+  #Code.load_file("example.exs", __DIR__)
+#end
 
 ExUnit.start()
-ExUnit.configure(exclude: :pending, trace: true)
+#ExUnit.configure(exclude: :pending, trace: true)
+ExUnit.configure(trace: true)
 
 defmodule ForthTest do
   use ExUnit.Case
@@ -24,14 +26,14 @@ defmodule ForthTest do
     assert s == "1 2 3 4 5"
   end
 
-  @tag :pending
+  #@tag :pending
   test "non-word characters are separators" do
     # Note the Ogham Space Mark ( ), this is a spacing character.
     s =
       Forth.new()
       |> Forth.eval("1\x002\x013\n4\r5 6\t7")
       |> Forth.format_stack()
-
+    IO.puts "*********"
     assert s == "1 2 3 4 5 6 7"
   end
 
