@@ -1,9 +1,9 @@
-if !System.get_env("EXERCISM_TEST_EXAMPLES") do
+#if !System.get_env("EXERCISM_TEST_EXAMPLES") do
   Code.load_file("school.exs", __DIR__)
-end
+  #end
 
 ExUnit.start()
-ExUnit.configure(exclude: :pending, trace: true)
+#ExUnit.configure(exclude: :pending, trace: true)
 
 defmodule SchoolTest do
   use ExUnit.Case
