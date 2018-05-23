@@ -1,5 +1,7 @@
 # Hamming
 
+https://en.wikipedia.org/wiki/Hamming_distance
+
 Calculate the Hamming difference between two DNA strands.
 
 A mutation is simply a mistake that occurs during the creation or
