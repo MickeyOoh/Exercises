@@ -53,6 +53,7 @@ defmodule Grep do
   end
 
   defp process_files(pattern, flags, files) do
+    
     files
     |> Enum.filter(fn x -> !Enum.empty?(matching_lines(pattern, flags, x)) end)
   end
@@ -88,6 +89,7 @@ defmodule Grep do
       else
         process_lines(pattern, flags, files)
       end
+    IO.puts "*** output ***\n#{inspect output}"
 
     output
     |> Enum.map(fn l -> "#{l}\n" end)

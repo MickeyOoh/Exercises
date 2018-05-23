@@ -1,6 +1,7 @@
-if !System.get_env("EXERCISM_TEST_EXAMPLES") do
-  Code.load_file("grep.exs", __DIR__)
-end
+#if !System.get_env("EXERCISM_TEST_EXAMPLES") do
+#Code.load_file("grep.exs", __DIR__)
+#end
+  Code.load_file("example.exs", __DIR__)
 
 ExUnit.start()
 ExUnit.configure(exclude: :pending, trace: true)
