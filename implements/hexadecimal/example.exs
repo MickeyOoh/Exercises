@@ -32,7 +32,7 @@ defmodule Hexadecimal do
       |> hex_to_int(0, 0)
     end
   end
-
+  # invalid then true, except 0-9a-fA-F
   defp invalid?(hex) do
     String.match?(hex, ~r/[^0-9a-fA-F]/)
   end
