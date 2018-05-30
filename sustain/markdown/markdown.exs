@@ -1,6 +1,7 @@
 defmodule Markdown do
   @doc """
-    Parses a given string with Markdown syntax and returns the associated HTML for that string.
+  Parses a given string with Markdown syntax and returns the 
+  associated HTML for that string.
 
     ## Examples
 
@@ -22,6 +23,7 @@ defmodule Markdown do
       else
         parse_list_md_level(t)
       end
+       |> IO.inspect
     else
       enclose_with_paragraph_tag(String.split(t))
     end
@@ -55,9 +57,12 @@ defmodule Markdown do
 
   defp replace_prefix_md(w) do
     cond do
-      w =~ ~r/^#{"__"}{1}/ -> String.replace(w, ~r/^#{"__"}{1}/, "<strong>", global: false)
-      w =~ ~r/^[#{"_"}{1}][^#{"_"}+]/ -> String.replace(w, ~r/_/, "<em>", global: false)
-      true -> w
+      w =~ ~r/^#{"__"}{1}/ -> 
+        String.replace(w, ~r/^#{"__"}{1}/, "<strong>", global: false)
+      w =~ ~r/^[#{"_"}{1}][^#{"_"}+]/ -> 
+        String.replace(w, ~r/_/, "<em>", global: false)
+      true -> 
+        w
     end
   end
 
