@@ -14,6 +14,7 @@ defmodule Meetup do
 
   @type schedule :: :first | :second | :third | :fourth | :last | :teenth
 
+  @weekday_num %{monday: 1, tuesday: 2}
   @doc """
   Calculate a meetup date.
 
@@ -23,4 +24,7 @@ defmodule Meetup do
   @spec meetup(pos_integer, pos_integer, weekday, schedule) :: :calendar.date()
   def meetup(year, month, weekday, schedule) do
   end
+  def test(d) do 
+    
+  end 
 end
