@@ -12,7 +12,10 @@ defmodule Minesweeper do
 
     annotations =
       Enum.reduce(Stream.with_index(board), %{}, fn {line, y}, acc ->
-        Enum.reduce(Stream.with_index(String.to_charlist(line)), acc, fn
+        cols = Stream.with_index(String.to_charlist(line)) 
+        #Enum.reduce(Stream.with_index(String.to_charlist(line)), acc, fn
+        Enum.reduce(cols, acc, fn
+          # acc <- * postion {x, y}
           {?*, x}, acc -> add_adjacents(acc, {x, y}, {w, h})
           _, acc -> acc
         end)
@@ -21,10 +24,8 @@ defmodule Minesweeper do
     Enum.map(Stream.with_index(board), fn {line, y} ->
       Enum.map(Stream.with_index(String.to_charlist(line)), fn
         # Don't replace mines
-        {?*, _} ->
-          ?*
-
-        {_, x} ->
+        {?*, _} -> ?*
+        {_,  x} ->
           case annotations[{x, y}] do
             nil -> ?\s
             n -> ?0 + n
@@ -38,8 +39,9 @@ defmodule Minesweeper do
                      y <- [-1, 0, 1],
                      x != 0 or y != 0,
                      do: {x, y}
-
+  #@spec add_adjacents(d=acc, c={x, y},bounds={w, h})
   defp add_adjacents(d, c, bounds) do
+
     Enum.reduce(@adjacent_vecs, d, fn v, acc ->
       c1 = add_vec(c, v)
 
@@ -51,7 +53,14 @@ defmodule Minesweeper do
     end)
   end
 
-  defp add_vec({cx, cy}, {vx, vy}), do: {cx + vx, cy + vy}
+  defp add_vec({cx, cy}, {vx, vy}),
+    do: {cx + vx, cy + vy}
 
-  defp valid?({cx, cy}, {w, h}), do: cx >= 0 and cx < w and cy >= 0 and cy < h
+  defp valid?({cx, cy}, {w, h}), 
+    do: cx >= 0 and cx < w and cy >= 0 and cy < h
+
+    @testpat [[" * * "], [" ", "*"," ","*"," "],
+             ["  *  ", "  *  ","*****", "  *  ","  *  "]] 
+  def test(pat), do: Enum.at(@testpat,pat)
 end
+
