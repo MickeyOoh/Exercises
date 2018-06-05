@@ -12,15 +12,24 @@ defmodule Prime do
     primes = primes_to(max)
 
     cond do
-      Enum.count(primes) < count -> nth(count, max * 4)
-      true -> Enum.at(primes, count - 1)
+      Enum.count(primes) < count -> 
+           nth(count, max * 4)
+      true -> 
+           Enum.at(primes, count - 1)
     end
   end
 
   defp primes_to(limit) do
-    Enum.reduce(2..limit, [], fn number, primes ->
-      if is_prime?(number, primes), do: [number | primes], else: primes
-    end)
+    Enum.reduce(2..limit, [], 
+      fn number, primes ->
+        if is_prime?(number, primes) do
+          [number | primes]
+        else
+          primes
+        end
+      end
+    )
+    #|> IO.inspect
     |> Enum.reverse()
   end
 
