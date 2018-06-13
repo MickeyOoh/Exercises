@@ -1,9 +1,9 @@
-if !System.get_env("EXERCISM_TEST_EXAMPLES") do
+#if !System.get_env("EXERCISM_TEST_EXAMPLES") do
   Code.load_file("frequency.exs", __DIR__)
-end
+  #end
 
 ExUnit.start()
-ExUnit.configure(exclude: :pending, trace: true)
+#ExUnit.configure(exclude: :pending, trace: true)
 
 # Your code should contain a frequency(texts, workers) function which accepts a
 # list of texts and the number of workers to use in parallel.
