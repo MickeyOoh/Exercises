@@ -22,10 +22,41 @@ defmodule Phone do
   iex> Phone.number("867.5309")
   "0000000000"
   """
+  @invalid "0000000000"
+  @regs %{:brace  => ~r/[().\s+-]+/, 
+          :letter => ~r/[A-za-z]+/,
+          :allletter => ~r/\P{L}+/u,
+          :phone_num => ~r/^1?(?:[2-9][0-9]{2}){2}\d{4}$/,
+          :allnumber => ~r/\P{N}+/,
+            }
+  #@format [1,3,3,4]
+  #@len Enum.sum(@format)
   @spec number(String.t()) :: String.t()
-  def number(raw) do
+  def number(raw) do 
+    num =
+      raw
+      |> String.replace(@regs[:brace], "")
+      |> valid?()
+    #|> (fn
+    #     false -> @invalid
+    #     num   -> String.replace(num, ~r/^1/, "")
+    #  end).()
+    case num do 
+      false -> @invalid
+      num -> String.replace(num, ~r/^1/, "")
+    end
+  end 
+  def valid?(num) do
+    bool = Regex.match?(@regs[:phone_num], num)
+    #|> (fn
+    #     true  -> num
+    #     false -> false 
+    #   end).()
+    case bool do 
+      true -> num
+      false -> false
+    end
   end
-
   @doc """
   Extract the area code from a phone number
 
@@ -48,6 +79,9 @@ defmodule Phone do
   """
   @spec area_code(String.t()) :: String.t()
   def area_code(raw) do
+    raw
+    |> __MODULE__.number()
+    |> String.slice( 0, 3)
   end
 
   @doc """
@@ -72,5 +106,12 @@ defmodule Phone do
   """
   @spec pretty(String.t()) :: String.t()
   def pretty(raw) do
+    code =
+      raw
+      |> __MODULE__.number()
+    <<area_code::binary-size(3),
+      exchange_code::binary-size(3),
+      rest::binary>> = code
+    "(#{area_code}) #{exchange_code}-#{rest}"
   end
 end
