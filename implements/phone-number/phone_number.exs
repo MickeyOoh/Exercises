@@ -33,26 +33,25 @@ defmodule Phone do
   #@len Enum.sum(@format)
   @spec number(String.t()) :: String.t()
   def number(raw) do 
-    num =
-      raw
+    raw
       |> String.replace(@regs[:brace], "")
       |> valid?()
     #|> (fn
     #     false -> @invalid
     #     num   -> String.replace(num, ~r/^1/, "")
     #  end).()
-    case num do 
-      false -> @invalid
-      num -> String.replace(num, ~r/^1/, "")
-    end
+      |> case do
+           false -> @invalid
+           num -> String.replace(num, ~r/^1/, "")
+         end 
   end 
   def valid?(num) do
-    bool = Regex.match?(@regs[:phone_num], num)
+    Regex.match?(@regs[:phone_num], num)
     #|> (fn
     #     true  -> num
     #     false -> false 
     #   end).()
-    case bool do 
+    |> case do 
       true -> num
       false -> false
     end
