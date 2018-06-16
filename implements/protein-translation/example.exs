@@ -1,6 +1,7 @@
 defmodule ProteinTranslation do
   @doc """
-  Given an RNA string, return a list of proteins specified by codons, in order.
+  Given an RNA string, return a list of proteins specified by codons,
+  in order.
   """
   @spec of_rna(String.t()) :: {atom, list(String.t())}
   def of_rna(rna) do
@@ -47,12 +48,15 @@ defmodule ProteinTranslation do
   defp translate_rna("", results), do: {:ok, Enum.reverse(results)}
 
   for codon <- @stop do
-    defp translate_rna(unquote(codon) <> _rest, results), do: {:ok, Enum.reverse(results)}
+    IO.puts "codon->#{inspect codon}"
+    defp translate_rna(unquote(codon) <> _rest, results),
+           do: {:ok, Enum.reverse(results)}
     defp translate_codon(unquote(codon)), do: {:ok, "STOP"}
   end
 
   for {protein, codons} <- @codons,
       codon <- codons do
+    IO.puts "protein->#{protein}, codon->#{codon}" 
     defp translate_rna(unquote(codon) <> rest, results),
       do: translate_rna(rest, [unquote(protein) | results])
 
