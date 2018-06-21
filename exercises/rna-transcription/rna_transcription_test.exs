@@ -1,9 +1,9 @@
-if !System.get_env("EXERCISM_TEST_EXAMPLES") do
+#jif !System.get_env("EXERCISM_TEST_EXAMPLES") do
   Code.load_file("rna_transcription.exs", __DIR__)
-end
+  #jend
 
 ExUnit.start()
-ExUnit.configure(exclude: :pending, trace: true)
+#jExUnit.configure(exclude: :pending, trace: true)
 
 defmodule RNATranscriptionTest do
   use ExUnit.Case
