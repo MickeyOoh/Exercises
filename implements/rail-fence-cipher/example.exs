@@ -34,7 +34,9 @@ defmodule RailFenceCipher do
   end
 
   defp fill_fence(list_chars, rails) do
-    rail_zigzag_indexes = Enum.concat(Enum.to_list(0..(rails - 1)), Enum.to_list((rails - 2)..1))
+    rail_zigzag_indexes = 
+      Enum.concat(Enum.to_list(0..(rails - 1)),
+                  Enum.to_list((rails - 2)..1))
 
     create_empty_fence(rails, length(list_chars))
     |> set_chars_to_fence(list_chars, rail_zigzag_indexes)
