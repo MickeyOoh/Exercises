@@ -1,9 +1,9 @@
-if !System.get_env("EXERCISM_TEST_EXAMPLES") do
+#if !System.get_env("EXERCISM_TEST_EXAMPLES") do
   Code.load_file("rotational_cipher.exs", __DIR__)
-end
+  #end
 
 ExUnit.start()
-ExUnit.configure(exclude: :pending, trace: true)
+#ExUnit.configure(exclude: :pending, trace: true)
 
 defmodule RotationalCipherTest do
   use ExUnit.Case

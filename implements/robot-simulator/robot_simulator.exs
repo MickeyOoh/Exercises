@@ -27,16 +27,19 @@ defmodule RobotSimulator do
   defp orient({:error, _} = error, _), do: error
   defp orient(_,_), do: {:error, "invalid direction"}
 
-  def rolate_right(dir, [h | t]) when dir == h do
-    hd(t)
-  end  
-  def rolate_right(dir, [h | t]), do: rolate_right(dir, t ++ [h])  
+  #def rotate_right(dir, [h | t]) when dir == h, do: hd(t)
+  #def rotate_right(dir, [h | t]), do: rotate_right(dir, t ++ [h])  
 
-  def rolate_left(dir, [h | t]) when dir == h do
-    List.last(t)
-  end  
-  def rolate_left(dir, [h | t]), do: rolate_left(dir, t ++ [h])  
+  #def rotate_left(dir, [h | t]) when dir == h, do: List.last(t)
+  #def rotate_left(dir, [h | t]), do: rotate_left(dir, t ++ [h])  
 
+  for [curr, right] <- @valid_directions
+                       |> Stream.cycle()
+                       |> Enum.take(5)
+                       |> Enum.chunk(2, 1) do
+    defp rotate_right(unquote(curr)), do: unquote(right)
+    defp rotate_left(unquote(right)), do: unquote(curr)
+  end
   @doc """
   Simulate the robot's movement given a string of instructions.
 
@@ -50,11 +53,12 @@ defmodule RobotSimulator do
   end
 
   def move("R", %RobotSimulator{} = robot) do
-    dir = rolate_right(direction(robot), @valid_directions)
+    #dir = rotate_right(direction(robot), @valid_directions)
+    dir = rotate_right(direction(robot))
     %{robot | direction: dir} 
   end
   def move("L", %RobotSimulator{} = robot) do
-    dir = rolate_left(direction(robot), @valid_directions)
+    dir = rotate_left(direction(robot))
     %{robot | direction: dir} 
   end
   def move("A", %RobotSimulator{} = robot) do
