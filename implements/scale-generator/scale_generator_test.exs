@@ -22,20 +22,22 @@ defmodule ScaleGeneratorTest do
   @pentatonic_scale_pattern "MMAMA"
   @enigmatic_scale_pattern "mAMMMmm"
 
+  @basic_note ~w(C C# D D# E F F# G G# A A# B)
   describe "step to next note" do
     # @tag :pending
     test "with half-tone interval" do
-      assert ScaleGenerator.step(~w(C C# D D# E F F# G G# A A# B), "C", "m") == "C#"
+      #assert ScaleGenerator.step(~w(C C# D D# E F F# G G# A A# B), "C", "m") == "C#"
+      assert ScaleGenerator.step(@basic_note, "C", "m") == "C#"
     end
 
     @tag :pending
     test "with full tone interval" do
-      assert ScaleGenerator.step(~w(C C# D D# E F F# G G# A A# B), "C", "M") == "D"
+      assert ScaleGenerator.step(@basic_note, "C", "M") == "D"
     end
 
     @tag :pending
     test "with accidental interval" do
-      assert ScaleGenerator.step(~w(C C# D D# E F F# G G# A A# B), "C", "A") == "D#"
+      assert ScaleGenerator.step(@basic_note, "C", "A") == "D#"
     end
   end
 
