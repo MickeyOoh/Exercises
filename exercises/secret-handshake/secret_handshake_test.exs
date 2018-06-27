@@ -1,9 +1,9 @@
-if !System.get_env("EXERCISM_TEST_EXAMPLES") do
+#if !System.get_env("EXERCISM_TEST_EXAMPLES") do
   Code.load_file("secret_handshake.exs", __DIR__)
-end
+  #end
 
 ExUnit.start()
-ExUnit.configure(trace: true, exclude: :pending)
+#ExUnit.configure(trace: true, exclude: :pending)
 
 defmodule SecretHandshakeTest do
   use ExUnit.Case

@@ -3,8 +3,12 @@ defmodule Scrabble do
     word |> letters |> summarize
   end
 
-  defp letters(word), do: word |> String.trim() |> String.downcase() |> String.codepoints()
-
+  defp letters(word) do
+    word 
+    |> String.trim()    # delete spaces at the end 
+    |> String.downcase() # change to small letters 
+    |> String.codepoints()  #
+  end
   defp summarize(letters),
     do: Enum.reduce(letters, 0, fn letter, acc -> acc + letter_score(letter) end)
 
