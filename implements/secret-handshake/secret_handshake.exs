@@ -29,7 +29,8 @@ defmodule SecretHandshake do
     |> decode( code, []) 
   end
   def decode([], code, results) do
-    case flag_chk(code, 0x10) do 
+    #case flag_chk(code, 0x10) do 
+    case flag_chk(code, 0b10000) do 
       true -> results
       _  -> Enum.reverse(results)
     end
