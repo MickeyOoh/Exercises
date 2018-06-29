@@ -1,6 +1,8 @@
 defmodule SpaceAge do
   def age_on(:earth, seconds), do: seconds / 31_557_600.0
-  def age_on(planet, seconds), do: age_on(:earth, seconds) / planet_rel_years(planet)
+  def age_on(planet, seconds) do
+    age_on(:earth, seconds) / planet_rel_years(planet)
+  end
 
   defp planet_rel_years(:mercury), do: 0.2408467
   defp planet_rel_years(:venus), do: 0.61519726
