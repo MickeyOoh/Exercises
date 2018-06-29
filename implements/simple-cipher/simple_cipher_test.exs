@@ -82,7 +82,6 @@ defmodule SimpleCipherTest do
 
     plaintext = "attackxatxdawn"
     ciphertext = SimpleCipher.encode(plaintext, key)
-
     assert SimpleCipher.decode(ciphertext, plaintext) == key
   end
 end

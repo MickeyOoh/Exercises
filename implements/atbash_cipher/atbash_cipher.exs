@@ -29,10 +29,17 @@ defmodule Atbash do
     |> List.to_string
     #|> IO.inspect
   end
+  @doc """
+  downcase(string) -> remove non-letters
+  """
+  @spec normalize(String.t()) :: String.t()
   def normalize(string) do 
     str = String.downcase(string)
-    Regex.replace(~r/\W/, str, "") 
+    Regex.replace(~r/\W/, str, "")   # remove non-letters
   end
+  @doc """
+  
+  """
   def convert(string) do
     String.to_charlist(string)
     |> Enum.map(fn x -> Map.get(@array, x, x) end)
