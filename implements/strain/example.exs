@@ -1,7 +1,7 @@
 defmodule Strain do
   @doc """
-  Given a `list` of items and a function `fun`, return the list of items where
-  `fun` returns true.
+  Given a `list` of items and a function `fun`, return the list of 
+  items where `fun` returns true.
 
   Do not use `Enum.filter`.
   """
@@ -20,8 +20,8 @@ defmodule Strain do
   end
 
   @doc """
-  Given a `list` of items and a function `fun`, return the list of items where
-  `fun` returns true.
+  Given a `list` of items and a function `fun`, return the list of 
+  items where `fun` returns true.
 
   Do not use `Enum.reject`.
   """
@@ -35,7 +35,7 @@ defmodule Strain do
   defp do_discard([head | tail], fun, results) do
     case apply(fun, [head]) do
       true -> do_discard(tail, fun, results)
-      _ -> do_discard(tail, fun, [head | results])
+      _ ->    do_discard(tail, fun, [head | results])
     end
   end
 end
