@@ -15,6 +15,7 @@ defmodule Spiral do
         [[]]
 
       _ ->
+        IO.puts "#{inspect Enum.to_list(start..(start + col - 1))}"
         [
           Enum.to_list(start..(start + col - 1))
           | unwind(col, row - 1, start + col) |> rotate_right
@@ -23,6 +24,8 @@ defmodule Spiral do
   end
 
   defp rotate_right(matrix) do
+    result = matrix |> transpose |> Enum.map(&Enum.reverse/1)
+    IO.puts "rot->#{inspect result}"
     matrix |> transpose |> Enum.map(&Enum.reverse/1)
   end
 
