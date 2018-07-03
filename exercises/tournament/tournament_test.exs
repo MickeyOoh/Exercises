@@ -1,9 +1,9 @@
-if !System.get_env("EXERCISM_TEST_EXAMPLES") do
+#if !System.get_env("EXERCISM_TEST_EXAMPLES") do
   Code.load_file("tournament.exs", __DIR__)
-end
+  #end
 
 ExUnit.start()
-ExUnit.configure(trace: true, exclude: :pending)
+#ExUnit.configure(trace: true, exclude: :pending)
 
 defmodule TournamentTest do
   use ExUnit.Case
