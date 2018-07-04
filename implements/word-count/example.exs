@@ -9,8 +9,9 @@ defmodule Words do
     |> summarize
   end
 
-  defp remove_punctuation(string), do: String.replace(string, @ascii_punctuation, " ")
-
+  defp remove_punctuation(string) do
+    String.replace(string, @ascii_punctuation, " ")
+  end
   defp to_words(sentence), do: List.flatten(String.split(sentence))
 
   defp summarize(words) do
