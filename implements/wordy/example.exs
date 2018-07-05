@@ -1,6 +1,7 @@
 defmodule Wordy do
   @operands [Wordy.Number]
-  @operations [Wordy.Addition, Wordy.Subtraction, Wordy.Multiplication, Wordy.Division]
+  @operations [Wordy.Addition, Wordy.Subtraction,
+               Wordy.Multiplication, Wordy.Division]
   @parts @operands ++ @operations
 
   @doc """
